@@ -4,17 +4,36 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function Cadastro(){
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
     const [image, setImage] = useState("")
     const [password, setPassword] = useState("")
+    const [desabilitado, setDesabilitado] = useState("")
+    const [textoBotao, setTextoBotao] = useState("Cadastrar")
 
     const navigate = useNavigate()
+    const inputDesbotado = "#F2F2F2"
+    const inputAtivo = "#FFFFFF"
+    const botaoLoading = <ThreeDots 
+        height="80" 
+        width="80" 
+        radius="9"
+        color="#ffffff" 
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+     />
+
+    
 
     function cadastrarUser(e){
         e.preventDefault()
+         setTextoBotao(botaoLoading) 
+        setDesabilitado("disabled")      
         const body = { email, name, image, password }
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
 
@@ -25,8 +44,11 @@ export default function Cadastro(){
             navigate(`/`)
           })
         promise.catch(err => {
+            setTextoBotao("Cadastrar") 
+            setDesabilitado("")   
             alert(err.response.data.message)
             console.log(err.response.data.message)
+             
         })
 
         setName("")
@@ -46,6 +68,8 @@ export default function Cadastro(){
                     placeholder="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)} 
+                    disabled={desabilitado}
+                    corFundo={desabilitado ? inputDesbotado : inputAtivo }
                     required
                 />
                 <Input
@@ -53,7 +77,9 @@ export default function Cadastro(){
                     type="password"
                     placeholder="senha"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}  
+                    onChange={e => setPassword(e.target.value)} 
+                    disabled={desabilitado}
+                    corFundo={desabilitado ? inputDesbotado : inputAtivo } 
                     required
                 />
                 <Input
@@ -62,6 +88,8 @@ export default function Cadastro(){
                     placeholder="nome"
                     value={name}
                     onChange={e => setName(e.target.value)} 
+                    disabled={desabilitado}
+                    corFundo={desabilitado ? inputDesbotado : inputAtivo }
                     required
                 />
                 <Input
@@ -70,9 +98,11 @@ export default function Cadastro(){
                     placeholder="foto"
                     value={image}
                     onChange={e => setImage(e.target.value)}
+                    disabled={desabilitado}
+                    corFundo={desabilitado ? inputDesbotado : inputAtivo }
                     required
                 />
-                <Button type="submit">Cadastrar</Button>
+                <Button type="submit">{textoBotao}</Button>
             </Formulario>
 
             <LinkLogin>
@@ -106,7 +136,7 @@ const Input = styled.input`
     box-sizing: border-box;
     width: 303px;
     height: 45px;
-    background-color: #FFFFFF;
+    background-color: ${props => props.corFundo};
     border: 1px solid #D5D5D5;
     border-radius: 5px;
     margin: 5px 0;
@@ -132,6 +162,9 @@ const Button = styled.button`
     line-height: 26px;
     color: #FFFFFF;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 const LinkLogin = styled.div`
    p{    

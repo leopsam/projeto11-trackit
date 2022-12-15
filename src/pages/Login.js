@@ -1,29 +1,56 @@
 import logoPrincipal from "../assets/logo.png"
+import botaoLoad from "../assets/botaoLoad.gif"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { UsuarioContext } from "../contexts/UsuarioContext"
+import { ThreeDots } from  'react-loader-spinner'
 
-export default function Login({ setToken }){
+export default function Login(){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-
+    const [desabilitado, setDesabilitado] = useState("")
+    const [textoBotao, setTextoBotao] = useState("Entrar")
+    const { setToken, setUserImage, setUserName } = useContext(UsuarioContext)
+    
     const navigate = useNavigate()
+    const inputDesbotado = "#F2F2F2"
+    const inputAtivo = "#FFFFFF"
+    const botaoLoading = <ThreeDots 
+        height="80" 
+        width="80" 
+        radius="9"
+        color="#ffffff" 
+        ariaLabel="three-dots-loading"
+        wrapperStyle={{}}
+        wrapperClassName=""
+        visible={true}
+     />
+
+
+    
 
     function loginUser(e) {
-        e.preventDefault()        
+        e.preventDefault() 
+        setTextoBotao(botaoLoading) 
+        setDesabilitado("disabled")      
         const body = { email, password }
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
     
         const promise = axios.post(url, body)
         promise.then((res) => {
-            setToken(res.data.token)        
+            setToken(res.data.token) 
+            setUserImage(res.data.image)           
             navigate("/hoje")
         })
 
-        promise.catch(err => {            
-            alert(err.response.data.message)
+        promise.catch(err => { 
+            setTextoBotao("Entrar") 
+            setDesabilitado("")            
+            alert(err.response.data.message)           
         })
       }
 
@@ -38,6 +65,8 @@ export default function Login({ setToken }){
                     placeholder="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)} 
+                    disabled={desabilitado}
+                    corFundo={desabilitado ? inputDesbotado : inputAtivo }
                     required
                 />
                 <Input
@@ -45,10 +74,13 @@ export default function Login({ setToken }){
                     type="password"
                     placeholder="senha"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}  
+                    onChange={e => setPassword(e.target.value)}
+                    disabled={desabilitado}
+                    corFundo={desabilitado ? inputDesbotado : inputAtivo } 
                     required
                 />
-                <Button type="submit">Entrar</Button>
+                <Button type="submit">{textoBotao}</Button>
+                
             </Formulario>
 
             <LinkCadastro>
@@ -82,7 +114,7 @@ const Input = styled.input`
     box-sizing: border-box;
     width: 303px;
     height: 45px;
-    background-color: #FFFFFF;
+    background-color: ${props => props.corFundo};
     border: 1px solid #D5D5D5;
     border-radius: 5px;
     margin: 5px 0;
@@ -108,6 +140,9 @@ const Button = styled.button`
     line-height: 26px;
     color: #FFFFFF;
     border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 const LinkCadastro = styled.div`
    p{    
