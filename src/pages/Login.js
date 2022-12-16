@@ -1,5 +1,4 @@
 import logoPrincipal from "../assets/logo.png"
-import botaoLoad from "../assets/botaoLoad.gif"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { useState } from "react"
@@ -14,11 +13,9 @@ export default function Login(){
     const [password, setPassword] = useState("")
     const [desabilitado, setDesabilitado] = useState("")
     const [textoBotao, setTextoBotao] = useState("Entrar")
-    const { setToken, setUserImage, setUserName } = useContext(UsuarioContext)
-    
+    const { setToken, setUserImage, setUserName, inputAtivo, inputDesbotado } = useContext(UsuarioContext)    
     const navigate = useNavigate()
-    const inputDesbotado = "#F2F2F2"
-    const inputAtivo = "#FFFFFF"
+    
     const botaoLoading = <ThreeDots 
         height="80" 
         width="80" 
@@ -28,10 +25,7 @@ export default function Login(){
         wrapperStyle={{}}
         wrapperClassName=""
         visible={true}
-     />
-
-
-    
+     />    
 
     function loginUser(e) {
         e.preventDefault() 
@@ -44,7 +38,7 @@ export default function Login(){
         promise.then((res) => {
             setToken(res.data.token) 
             setUserImage(res.data.image)           
-            navigate("/hoje")
+            navigate("/habitos")
         })
 
         promise.catch(err => { 
@@ -57,7 +51,6 @@ export default function Login(){
     return(
         <Container>
             <img src={logoPrincipal} />
-
             <Formulario onSubmit={loginUser}>
                 <Input
                     id="email"
@@ -97,7 +90,9 @@ const Container = styled.div`
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   margin: 60px 0;
+   padding: 60px 0;
+   background-color: #ffffff;
+   height: 100vh;
    img{
         width: 180px;
         height: 178px;

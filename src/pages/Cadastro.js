@@ -13,8 +13,8 @@ export default function Cadastro(){
     const [password, setPassword] = useState("")
     const [desabilitado, setDesabilitado] = useState("")
     const [textoBotao, setTextoBotao] = useState("Cadastrar")
-
     const navigate = useNavigate()
+    
     const inputDesbotado = "#F2F2F2"
     const inputAtivo = "#FFFFFF"
     const botaoLoading = <ThreeDots 
@@ -25,10 +25,8 @@ export default function Cadastro(){
         ariaLabel="three-dots-loading"
         wrapperStyle={{}}
         wrapperClassName=""
-        visible={true}
-     />
-
-    
+        visible={true}    
+        />    
 
     function cadastrarUser(e){
         e.preventDefault()
@@ -36,6 +34,7 @@ export default function Cadastro(){
         setDesabilitado("disabled")      
         const body = { email, name, image, password }
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
+        
 
         const promise = axios.post(url, body)
         promise.then(res => {
@@ -60,7 +59,6 @@ export default function Cadastro(){
     return(
         <Container>
             <img src={logoPrincipal} />
-
             <Formulario onSubmit={cadastrarUser}>
                 <Input
                     id="email"
@@ -119,7 +117,9 @@ const Container = styled.div`
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   margin: 60px 0;
+   padding: 60px 0;
+   background-color: #ffffff;
+   height: 100vh;
    img{
         width: 180px;
         height: 178px;

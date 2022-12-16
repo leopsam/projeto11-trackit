@@ -19,8 +19,7 @@ export default function Hoje(){
     
     useEffect(() => {
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"    
-        const config = { headers: { Authorization: `Bearer ${token}` }
-        }    
+        const config = { headers: { Authorization: `Bearer ${token}` } }    
         const promise = axios.get(url, config)    
         promise.then((res) => setHoje(res.data))
         promise.catch((err) => console.log(err.response.data))
@@ -53,17 +52,37 @@ export default function Hoje(){
                             <div>
                                 <p>Sequência atual: 3 dias</p>
                                 <p>Seu recorde: 5 dias</p>
-                            </div>                            
+                            </div>
                         </ContainerHabitoEsquerda>
                         <ContainerImage>
                             <img src={vetor}/> 
-                        </ContainerImage>                                               
+                        </ContainerImage>                        
                     </HabitosHoje>
-
-                </ContainerHabitosHoje>
-                
-                
-
+                    <HabitosHoje>
+                        <ContainerHabitoEsquerda>
+                            <h1>Ler 1 capítulo de livro</h1>
+                            <div>
+                                <p>Sequência atual: 3 dias</p>
+                                <p>Seu recorde: 5 dias</p>
+                            </div>
+                        </ContainerHabitoEsquerda>
+                        <ContainerImage>
+                            <img src={vetor}/> 
+                        </ContainerImage>                        
+                    </HabitosHoje>
+                    <HabitosHoje>
+                        <ContainerHabitoEsquerda>
+                            <h1>Ler 1 capítulo de livro</h1>
+                            <div>
+                                <p>Sequência atual: 3 dias</p>
+                                <p>Seu recorde: 5 dias</p>
+                            </div>
+                        </ContainerHabitoEsquerda>
+                        <ContainerImage>
+                            <img src={vetor}/> 
+                        </ContainerImage>                        
+                    </HabitosHoje>
+                </ContainerHabitosHoje> 
             </Container>
             <Menu />
         </Corpo>
@@ -73,9 +92,8 @@ export default function Hoje(){
 
 const Corpo = styled.div`
     background-color: #E5E5E5;
-    height: 90vh;
-    margin-top: 70px;
-    padding-top: 1px;
+    height: 100%;
+    padding: 70px 0;
 `
 const Container = styled.div`
     margin: 25px 15px;

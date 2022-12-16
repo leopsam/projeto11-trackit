@@ -7,6 +7,9 @@ export function UserProvider( {children} ) {
   const [token, setToken] = useState(undefined)
   const [userImage, setUserImage] = useState("")
 
+  const inputDesbotado = "#F2F2F2"
+  const inputAtivo = "#FFFFFF"
+
   return (
     <UsuarioContext.Provider value={{
         token,
@@ -14,7 +17,10 @@ export function UserProvider( {children} ) {
         userName,
         setUserName,
         userImage,
-        setUserImage
+        setUserImage,
+        inputDesbotado,
+        inputAtivo,
+
     }}>
       {children}
     </UsuarioContext.Provider>
