@@ -197,9 +197,14 @@ const TopHabitos = styled.div`
       font-size: 27px;
       color: #FFFFFF;
       border: none;
+      cursor: pointer;
     }
 `
 const ContainerHabitos = styled.div`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   p{
     font-family: 'Lexend Deca';
     font-style: normal;
@@ -261,7 +266,7 @@ const InputButton = styled.button`
     font-size: 19.976px;
     line-height: 25px;
     color: ${props => props.corTexto};;
-    background-color: ${props => props.corFundoBotao};;
+    background-color: ${props => props.corFundoBotao};
 `
 const Button = styled.button`
   width: 84px;
@@ -278,6 +283,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `
 const ContainerBotoesSemana = styled.div`
    margin: 5px;
@@ -297,6 +303,7 @@ const ButtonCanselar = styled.button`
   align-items: center;
   justify-content: center;
   margin: 0 20px;
+  cursor: pointer;
 `
 const ContainerBotoesEdicao = styled.div`
   display: flex;
@@ -332,4 +339,7 @@ const TituloHabitoUnid = styled.div`
 display: flex;
 align-items: center;
 justify-content: space-between;
+img{
+  cursor: pointer;
+}
 `

@@ -14,7 +14,7 @@ export default function Cadastro(){
     const [desabilitado, setDesabilitado] = useState("")
     const [textoBotao, setTextoBotao] = useState("Cadastrar")
     const navigate = useNavigate()
-    
+
     const inputDesbotado = "#F2F2F2"
     const inputAtivo = "#FFFFFF"
     const botaoLoading = <ThreeDots 
@@ -167,6 +167,7 @@ const Button = styled.button`
     justify-content: center;
 `
 const LinkLogin = styled.div`
+    margin-bottom: 30px;
    p{    
         font-family: 'Lexend Deca';
         font-style: normal;

@@ -15,7 +15,7 @@ export default function Login(){
     const [textoBotao, setTextoBotao] = useState("Entrar")
     const { setToken, setUserImage, setUserName, inputAtivo, inputDesbotado } = useContext(UsuarioContext)    
     const navigate = useNavigate()
-    
+
     const botaoLoading = <ThreeDots 
         height="80" 
         width="80" 
@@ -140,6 +140,7 @@ const Button = styled.button`
     justify-content: center;
 `
 const LinkCadastro = styled.div`
+    margin-bottom: 30px;
    p{    
         font-family: 'Lexend Deca';
         font-style: normal;
