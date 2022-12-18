@@ -7,6 +7,7 @@ export function UserProvider( {children} ) {
   const [token, setToken] = useState(undefined)
   const [userImage, setUserImage] = useState("")
   const [porcentagem, setPorcentagem] = useState(0)
+  const [hoje, setHoje] = useState([])
 
   const inputDesbotado = "#F2F2F2"
   const inputAtivo = "#FFFFFF"
@@ -22,7 +23,9 @@ export function UserProvider( {children} ) {
         inputDesbotado,
         inputAtivo,
         porcentagem,
-        setPorcentagem
+        setPorcentagem,
+        hoje,
+        setHoje
 
     }}>
       {children}

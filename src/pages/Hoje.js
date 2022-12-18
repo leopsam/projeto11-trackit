@@ -8,6 +8,7 @@ import dayjs from "dayjs"
 import "dayjs/locale/pt-br"
 import vetor from "../assets/Vector.png"
 import Menu from "../components/Menu"
+import { useNavigate } from "react-router-dom"
 
 
 export default function Hoje(){
@@ -15,17 +16,20 @@ export default function Hoje(){
     const dataFinal = data.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
     const desmarcado = "#EBEBEB"
     const marcado = "#8FC549"
+    const navigate = useNavigate()
     
     
-    const { userName, token, setPorcentagem, porcentagem } = useContext(UsuarioContext)
-    const [hoje, setHoje] = useState([])
-    const [count, setCount] = useState() 
+    const { userName, token, setPorcentagem, porcentagem, hoje, setHoje } = useContext(UsuarioContext)
+    //const [hoje, setHoje] = useState([])
+    const [count, setCount] = useState(2) 
     const [calculo, setCalculo] = useState(0) 
 
-    console.log("-----------------------------------")
+    //.log("-----------------------------------")
     console.log("porcentagem " + porcentagem) 
-    console.log("Calculo " + calculo) 
-    console.log(hoje)      
+    //console.log("Calculo " + calculo) 
+    //console.log(count) 
+    
+    
         
 
     useEffect(() => {
@@ -33,33 +37,32 @@ export default function Hoje(){
         const config = { headers: { Authorization: `Bearer ${token}` } }    
         const promise = axios.get(url, config) 
 
-        promise.then(res => (setHoje(res.data) 
-            //setCalculo(100/res.data.length)
-           // res.data.map((r) => (r.done === true && setPorcentagem((100/res.data.length) + porcentagem)))
-        ))
-        
+        promise.then(res => {            
+            setHoje(res.data)                      
+            setCalculo(100/res.data.length)
+        })        
         promise.catch((err) => console.log(err.response.data))
-
-
     }, [count])
+     
 
     function marcaHabito(habito){
-        if(!habito.done === true){
+        
             const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/check`
             const body = {}
             const config = { headers: { Authorization: `Bearer ${token}` } }  
       
             const promise = axios.post(url, body, config)
             promise.then(res => { 
-                console.log("Marcado")
-                //setPorcentagem(calculo + porcentagem)              
+                (console.log("Marcado"))
+                setCount(count+1)
+                setPorcentagem(porcentagem + calculo)        
               })
             promise.catch(err => {
                 alert(err.response.data.message)       
-              })
-            setTimeout(setCount(count+1), 1000) 
+              })            
+        }
 
-        }else if(habito.done === true){
+        function desmarcaHabito(habito){       
             const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/uncheck`
             const body = {}
             const config = { headers: { Authorization: `Bearer ${token}` } }  
@@ -67,44 +70,46 @@ export default function Hoje(){
             const promise = axios.post(url, body, config)
             promise.then(res => { 
                 console.log("Desmarcado")
-                //setPorcentagem(porcentagem - calculo)              
+                setCount(count+1)
+                setPorcentagem(porcentagem - calculo)          
               })
             promise.catch(err => {
                 alert(err.response.data.message)         
               })
-              setTimeout(setCount(count+1), 1000)
-        } 
-    }
+        }    
 
     return(
-        <Corpo>
-            <Cabecalho />
-            <Container>
-                <DataHoje>
-                    <h1>{dataFinal}</h1>
-                    <h3>Nenhum hábito concluído ainda</h3>
-                </DataHoje>
-                <ContainerHabitosHoje>
-                    {hoje.map((hh) => (
-                        <HabitosHoje key={hh.id}>
-                        <ContainerHabitoEsquerda>
-                            <h1>{hh.name}</h1>
-                            <div>
-                                <p>Sequência atual: {hh.currentSequence} dias</p>
-                                <p>Seu recorde: {hh.highestSequence} dias</p>
-                            </div>
-                        </ContainerHabitoEsquerda>
-                        <ContainerImage onClick={() => marcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}>
-                            <img src={vetor} alt="ckeck"/> 
-                        </ContainerImage>                        
-                        </HabitosHoje>
-                    ))}
-                </ContainerHabitosHoje> 
-            </Container>
-            <Menu />
-        </Corpo>
-        
-    )
+    <Corpo>
+        <Cabecalho />
+        <Container>
+            <DataHoje>
+                <h1>{dataFinal}</h1>  
+                {porcentagem > 0 ? <SubTitulo corTitulo={marcado}>{porcentagem.toFixed(0)}% dos hábitos concluídos</SubTitulo> : <SubTitulo corTitulo="#BABABA">Nenhum hábito concluído ainda</SubTitulo>}                  
+                
+            </DataHoje>
+            <ContainerHabitosHoje> 
+                 {hoje.map((hh) => (
+                    <HabitosHoje key={hh.id}>
+                    <ContainerHabitoEsquerda>
+                        <h1>{hh.name}</h1>
+                        <div>
+                            <p>Sequência atual: <TextoVerde corTexto={hh.currentSequence>0 && marcado}>{hh.currentSequence} dias</TextoVerde></p>
+                            <p>Seu recorde: <TextoVerde corTexto={hh.highestSequence>0 && marcado}>{hh.highestSequence} dias</TextoVerde></p>
+                        </div>
+                    </ContainerHabitoEsquerda>
+                    <ContainerImage onClick={!hh.done ? () => marcaHabito(hh) : () => desmarcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}>
+                        <img src={vetor} alt="ckeck"/> 
+                    </ContainerImage>                        
+                    </HabitosHoje>
+                ))}   
+              
+            </ContainerHabitosHoje> 
+        </Container>
+        <Menu />
+    </Corpo>
+    
+)
+    
 }
 
 const Corpo = styled.div`
@@ -124,16 +129,15 @@ const DataHoje = styled.div`
         line-height: 29px;
         color: #126BA5; 
     }
-        
-    h3{
+  
+`
+const SubTitulo = styled.h3`
         font-family: 'Lexend Deca';
         font-style: normal;
         font-weight: 400;
         font-size: 17.976px;
         line-height: 22px;
-        color: #BABABA;
-    }
-  
+        color: ${props => props.corTitulo};
 `
 const ContainerHabitosHoje = styled.div` 
     margin: 25px 0;
@@ -164,7 +168,7 @@ const HabitosHoje = styled.div`
 const ContainerImage = styled.div`
     width: 69px;
     height: 69px;
-    background: ${props => props.corFundo};;
+    background: ${props => props.corFundo};
     border: 1px solid #E7E7E7;
     border-radius: 5px;
     margin: 10px;
@@ -184,4 +188,7 @@ const ContainerHabitoEsquerda = styled.div`
         line-height: 16px;
         color: #666666;
     } 
+`
+const TextoVerde = styled.span`
+    color: ${props => props.corTexto};
 `

@@ -20,7 +20,7 @@ export default function Habitos(){
   const [count, setCount] = useState(0)
 
   const diasDaSemana = ["D","S","T","Q","Q","S","S"]
-  const NumDaSemana = [1,2,3,4,5,6,7]
+  const NumDaSemana = [0,1,2,3,4,5,6]
   const brancoBotao = "#ffffff"
   const cinzaBotao = "#CFCFCF"
   const navigate = useNavigate()
@@ -130,7 +130,7 @@ export default function Habitos(){
                           disabled={desabilitado}
                           corFundoBotao={!days.includes(nd) ? brancoBotao : cinzaBotao}
                           corTexto={days.includes(nd) ? brancoBotao : cinzaBotao}
-                        >{diasDaSemana[nd-1]}</InputButton>
+                        >{diasDaSemana[nd]}</InputButton>
                       ))} 
                     </ContainerBotoesSemana>
                     <ContainerBotoesEdicao>
@@ -157,7 +157,7 @@ export default function Habitos(){
                                 disabled={desabilitado}
                                 corFundoBotao={!h.days.includes(d) ? brancoBotao : cinzaBotao}
                                 corTexto={h.days.includes(d) ? brancoBotao : cinzaBotao}
-                              >{diasDaSemana[d-1]}</InputButton>
+                              >{diasDaSemana[d]}</InputButton>
                             ))} 
                       </ContainerBotoesSemana>
                     </HabitoUnid>
