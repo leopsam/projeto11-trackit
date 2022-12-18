@@ -3,6 +3,7 @@ import Cadastro from "../pages/Cadastro";
 import Hoje from "../pages/Hoje";
 import Login from "../pages/Login";
 import Habitos from "../pages/Habitos";
+import Historico from "../pages/Historico";
 import { UserProvider } from "../contexts/UsuarioContext";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/hoje" element={<Hoje />} />
         <Route path="/habitos" element={<Habitos />} />
+        <Route path="/historico" element={<Historico />} />
       </Routes>
     </UserProvider> 
   </BrowserRouter>

@@ -123,7 +123,8 @@ export default function Habitos(){
                   />
                     <ContainerBotoesSemana>
                       {NumDaSemana.map((nd) => (
-                        <InputButton 
+                        <InputButton
+                          key={nd} 
                           type="button" 
                           onClick={() => escolhaDia(nd)} 
                           disabled={desabilitado}
@@ -151,6 +152,7 @@ export default function Habitos(){
                       <ContainerBotoesSemana>
                             {NumDaSemana.map((d) => (
                               <InputButton 
+                                key={d} 
                                 type="button"                    
                                 disabled={desabilitado}
                                 corFundoBotao={!h.days.includes(d) ? brancoBotao : cinzaBotao}
@@ -265,7 +267,7 @@ const InputButton = styled.button`
     font-weight: 400;
     font-size: 19.976px;
     line-height: 25px;
-    color: ${props => props.corTexto};;
+    color: ${props => props.corTexto};
     background-color: ${props => props.corFundoBotao};
 `
 const Button = styled.button`

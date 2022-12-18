@@ -1,9 +1,8 @@
 import logoPrincipal from "../assets/logo.png"
 import styled from "styled-components"
-import { Link } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useContext } from "react"
 import { UsuarioContext } from "../contexts/UsuarioContext"
 import { ThreeDots } from  'react-loader-spinner'
@@ -13,7 +12,7 @@ export default function Login(){
     const [password, setPassword] = useState("")
     const [desabilitado, setDesabilitado] = useState("")
     const [textoBotao, setTextoBotao] = useState("Entrar")
-    const { setToken, setUserImage, setUserName, inputAtivo, inputDesbotado } = useContext(UsuarioContext)    
+    const { setToken, setUserImage, inputAtivo, inputDesbotado } = useContext(UsuarioContext)    
     const navigate = useNavigate()
 
     const botaoLoading = <ThreeDots 
@@ -38,7 +37,7 @@ export default function Login(){
         promise.then((res) => {
             setToken(res.data.token) 
             setUserImage(res.data.image)           
-            navigate("/habitos")
+            navigate("/hoje")
         })
 
         promise.catch(err => { 
@@ -50,7 +49,7 @@ export default function Login(){
 
     return(
         <Container>
-            <img src={logoPrincipal} />
+            <img src={logoPrincipal} alt="Logo Trancklt"/>
             <Formulario onSubmit={loginUser}>
                 <Input
                     id="email"

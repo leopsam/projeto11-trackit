@@ -13,17 +13,68 @@ import Menu from "../components/Menu"
 export default function Hoje(){
     const data = dayjs().locale('pt-br').format('dddd, DD/MM')
     const dataFinal = data.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
-
-    const [hoje, setHoje] = useState([])
-    const { userName, token } = useContext(UsuarioContext)  
+    const desmarcado = "#EBEBEB"
+    const marcado = "#8FC549"
     
+    
+    const { userName, token, setPorcentagem, porcentagem } = useContext(UsuarioContext)
+    const [hoje, setHoje] = useState([])
+    const [count, setCount] = useState() 
+    const [calculo, setCalculo] = useState(0) 
+
+    console.log("-----------------------------------")
+    console.log("porcentagem " + porcentagem) 
+    console.log("Calculo " + calculo) 
+    console.log(hoje)      
+        
+
     useEffect(() => {
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"    
         const config = { headers: { Authorization: `Bearer ${token}` } }    
-        const promise = axios.get(url, config)    
-        promise.then((res) => setHoje(res.data))
+        const promise = axios.get(url, config) 
+
+        promise.then(res => (setHoje(res.data) 
+            //setCalculo(100/res.data.length)
+           // res.data.map((r) => (r.done === true && setPorcentagem((100/res.data.length) + porcentagem)))
+        ))
+        
         promise.catch((err) => console.log(err.response.data))
-    }, [])
+
+
+    }, [count])
+
+    function marcaHabito(habito){
+        if(!habito.done === true){
+            const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/check`
+            const body = {}
+            const config = { headers: { Authorization: `Bearer ${token}` } }  
+      
+            const promise = axios.post(url, body, config)
+            promise.then(res => { 
+                console.log("Marcado")
+                //setPorcentagem(calculo + porcentagem)              
+              })
+            promise.catch(err => {
+                alert(err.response.data.message)       
+              })
+            setTimeout(setCount(count+1), 1000) 
+
+        }else if(habito.done === true){
+            const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/uncheck`
+            const body = {}
+            const config = { headers: { Authorization: `Bearer ${token}` } }  
+      
+            const promise = axios.post(url, body, config)
+            promise.then(res => { 
+                console.log("Desmarcado")
+                //setPorcentagem(porcentagem - calculo)              
+              })
+            promise.catch(err => {
+                alert(err.response.data.message)         
+              })
+              setTimeout(setCount(count+1), 1000)
+        } 
+    }
 
     return(
         <Corpo>
@@ -34,54 +85,20 @@ export default function Hoje(){
                     <h3>Nenhum hábito concluído ainda</h3>
                 </DataHoje>
                 <ContainerHabitosHoje>
-                    <HabitosHoje>
+                    {hoje.map((hh) => (
+                        <HabitosHoje key={hh.id}>
                         <ContainerHabitoEsquerda>
-                            <h1>Ler 1 capítulo de livro</h1>
+                            <h1>{hh.name}</h1>
                             <div>
-                                <p>Sequência atual: 3 dias</p>
-                                <p>Seu recorde: 5 dias</p>
+                                <p>Sequência atual: {hh.currentSequence} dias</p>
+                                <p>Seu recorde: {hh.highestSequence} dias</p>
                             </div>
                         </ContainerHabitoEsquerda>
-                        <ContainerImage>
-                            <img src={vetor}/> 
+                        <ContainerImage onClick={() => marcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}>
+                            <img src={vetor} alt="ckeck"/> 
                         </ContainerImage>                        
-                    </HabitosHoje>
-                    <HabitosHoje>
-                        <ContainerHabitoEsquerda>
-                            <h1>Ler 1 capítulo de livro</h1>
-                            <div>
-                                <p>Sequência atual: 3 dias</p>
-                                <p>Seu recorde: 5 dias</p>
-                            </div>
-                        </ContainerHabitoEsquerda>
-                        <ContainerImage>
-                            <img src={vetor}/> 
-                        </ContainerImage>                        
-                    </HabitosHoje>
-                    <HabitosHoje>
-                        <ContainerHabitoEsquerda>
-                            <h1>Ler 1 capítulo de livro</h1>
-                            <div>
-                                <p>Sequência atual: 3 dias</p>
-                                <p>Seu recorde: 5 dias</p>
-                            </div>
-                        </ContainerHabitoEsquerda>
-                        <ContainerImage>
-                            <img src={vetor}/> 
-                        </ContainerImage>                        
-                    </HabitosHoje>
-                    <HabitosHoje>
-                        <ContainerHabitoEsquerda>
-                            <h1>Ler 1 capítulo de livro</h1>
-                            <div>
-                                <p>Sequência atual: 3 dias</p>
-                                <p>Seu recorde: 5 dias</p>
-                            </div>
-                        </ContainerHabitoEsquerda>
-                        <ContainerImage>
-                            <img src={vetor}/> 
-                        </ContainerImage>                        
-                    </HabitosHoje>
+                        </HabitosHoje>
+                    ))}
                 </ContainerHabitosHoje> 
             </Container>
             <Menu />
@@ -147,7 +164,7 @@ const HabitosHoje = styled.div`
 const ContainerImage = styled.div`
     width: 69px;
     height: 69px;
-    background: #EBEBEB;
+    background: ${props => props.corFundo};;
     border: 1px solid #E7E7E7;
     border-radius: 5px;
     margin: 10px;
