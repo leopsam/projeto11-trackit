@@ -1,16 +1,15 @@
 import styled from "styled-components"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import axios from "axios"
-import { useContext } from "react"
 import { UsuarioContext } from "../contexts/UsuarioContext"
 import Cabecalho from "../components/Cabecalho"
 import Menu from "../components/Menu"
 import { ThreeDots } from  'react-loader-spinner'
-import { useNavigate } from "react-router-dom"
+//import { useNavigate } from "react-router-dom"
 import lixoImage from "../assets/lixo.png"
 
 export default function Habitos(){
-  const { token, inputDesbotado, inputAtivo } = useContext(UsuarioContext)  
+  const { token, setUserImage, inputDesbotado, inputAtivo } = useContext(UsuarioContext)  
   const [habitos, setHabitos] = useState([])
   const [days, setDays] = useState([])
   const [cadastarHabito, setCadastarHabito] = useState(false)
@@ -23,7 +22,7 @@ export default function Habitos(){
   const NumDaSemana = [0,1,2,3,4,5,6]
   const brancoBotao = "#ffffff"
   const cinzaBotao = "#CFCFCF"
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
 
   const botaoLoading = <ThreeDots 
         height="50" 
@@ -36,7 +35,24 @@ export default function Habitos(){
         visible={true}
      />    
   
-  console.log(days)
+  useEffect(()=>{ 
+      const email = localStorage.getItem("email")
+      const password = localStorage.getItem("senha")
+      
+      const body = { email, password }
+      const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+
+      const promise = axios.post(url, body)
+      promise.then(res => {
+          localStorage.setItem("token", res.data.token)
+          setUserImage(res.data.image) 
+           
+      })
+      promise.catch(err => {            
+          alert(err.response.data.message)           
+      })  
+      //navigate("/hoje")
+  }, []) 
      
   useEffect(() => {
     const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits"    

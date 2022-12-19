@@ -10,43 +10,54 @@ import vetor from "../assets/Vector.png"
 import Menu from "../components/Menu"
 import { useNavigate } from "react-router-dom"
 
-
 export default function Hoje(){
     const data = dayjs().locale('pt-br').format('dddd, DD/MM')
     const dataFinal = data.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
     const desmarcado = "#EBEBEB"
     const marcado = "#8FC549"
-    const navigate = useNavigate()
+    const tokenLocal = localStorage.getItem("token")
+    const navigate = useNavigate()    
     
+    const { setPorcentagem, porcentagem, hoje, setHoje, setUserImage, setCount, count, token } = useContext(UsuarioContext)
+    const [calculo, setCalculo] = useState(0)  
+    const [quant, setQuant] = useState(0)   
     
-    const { userName, token, setPorcentagem, porcentagem, hoje, setHoje } = useContext(UsuarioContext)
-    //const [hoje, setHoje] = useState([])
-    const [count, setCount] = useState(2) 
-    const [calculo, setCalculo] = useState(0) 
-
-    //.log("-----------------------------------")
-    console.log("porcentagem " + porcentagem) 
-    //console.log("Calculo " + calculo) 
-    //console.log(count) 
-    
-    
+    useEffect(()=>{ 
+        const email = localStorage.getItem("email")
+        const password = localStorage.getItem("senha")
         
+        const body = { email, password }
+        const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+
+        const promise = axios.post(url, body)
+        promise.then(res => {
+            localStorage.setItem("token", res.data.token)
+            setUserImage(res.data.image) 
+        })
+        promise.catch(err => {            
+            alert(err.response.data.message)           
+        })         
+        setCount(count+1)
+
+    }, [])
 
     useEffect(() => {
+        setHoje([]) 
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"    
         const config = { headers: { Authorization: `Bearer ${token}` } }    
         const promise = axios.get(url, config) 
 
         promise.then(res => {            
             setHoje(res.data)                      
-            setCalculo(100/res.data.length)
+            setCalculo(100/res.data.length)            
         })        
-        promise.catch((err) => console.log(err.response.data))
-    }, [count])
-     
-
-    function marcaHabito(habito){
+        promise.catch((err) => {
+            console.log(err.response.data)
+        })
         
+    }, [count])
+
+    function marcaHabito(habito){        
             const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/check`
             const body = {}
             const config = { headers: { Authorization: `Bearer ${token}` } }  
@@ -60,23 +71,23 @@ export default function Hoje(){
             promise.catch(err => {
                 alert(err.response.data.message)       
               })            
-        }
+        }       
 
-        function desmarcaHabito(habito){       
-            const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/uncheck`
-            const body = {}
-            const config = { headers: { Authorization: `Bearer ${token}` } }  
+    function desmarcaHabito(habito){       
+        const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/uncheck`
+        const body = {}
+        const config = { headers: { Authorization: `Bearer ${token}` } }  
       
-            const promise = axios.post(url, body, config)
-            promise.then(res => { 
-                console.log("Desmarcado")
-                setCount(count+1)
-                setPorcentagem(porcentagem - calculo)          
-              })
-            promise.catch(err => {
-                alert(err.response.data.message)         
-              })
-        }    
+        const promise = axios.post(url, body, config)
+        promise.then(res => { 
+            console.log("Desmarcado")
+            setCount(count+1)
+            setPorcentagem(porcentagem - calculo)          
+        })
+        promise.catch(err => {
+            alert(err.response.data.message)         
+        })
+    } 
 
     return(
     <Corpo>
@@ -108,8 +119,7 @@ export default function Hoje(){
         <Menu />
     </Corpo>
     
-)
-    
+    )
 }
 
 const Corpo = styled.div`

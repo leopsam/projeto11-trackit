@@ -1,9 +1,8 @@
 import logoPrincipal from "../assets/logo.png"
 import styled from "styled-components"
-import { useState } from "react"
+import { useState, useContext } from "react"
 import axios from "axios"
 import { useNavigate, Link } from "react-router-dom"
-import { useContext } from "react"
 import { UsuarioContext } from "../contexts/UsuarioContext"
 import { ThreeDots } from  'react-loader-spinner'
 
@@ -35,8 +34,11 @@ export default function Login(){
     
         const promise = axios.post(url, body)
         promise.then((res) => {
-            setToken(res.data.token) 
-            setUserImage(res.data.image)           
+            //setToken(res.data.token) 
+            setUserImage(res.data.image)
+            localStorage.setItem("email", res.data.email);
+            localStorage.setItem("senha", res.data.password);
+            localStorage.setItem("token", res.data.token);
             navigate("/hoje")
         })
 

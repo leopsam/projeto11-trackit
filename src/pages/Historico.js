@@ -1,12 +1,31 @@
 import styled from "styled-components"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { UsuarioContext } from "../contexts/UsuarioContext"
 import Cabecalho from "../components/Cabecalho"
 import Menu from "../components/Menu"
+import axios from "axios"
 
 
 export default function Hoje(){    
-    const { userName, token } = useContext(UsuarioContext)
+    const { setUserImage } = useContext(UsuarioContext)
+
+    useEffect(()=>{ 
+        const email = localStorage.getItem("email")
+        const password = localStorage.getItem("senha")
+        
+        const body = { email, password }
+        const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
+
+        const promise = axios.post(url, body)
+        promise.then(res => {
+            localStorage.setItem("token", res.data.token)
+            setUserImage(res.data.image) 
+        })
+        promise.catch(err => {            
+            alert(err.response.data.message)           
+        })         
+
+    }, [])
 
     return(
         <Corpo>

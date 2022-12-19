@@ -2,16 +2,12 @@ import styled from "styled-components"
 import { useContext } from "react";
 import { UsuarioContext } from "../contexts/UsuarioContext";
 import { Link } from "react-router-dom"
-import {
-    CircularProgressbar,
-    CircularProgressbarWithChildren,
-    buildStyles
-  } from "react-circular-progressbar";
-  import "react-circular-progressbar/dist/styles.css";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 
 export default function Menu(){
-    const { userImage, userName, porcentagem } = useContext(UsuarioContext)
+    const { porcentagem } = useContext(UsuarioContext)
 
     return(
         <FooterMenu> 
@@ -77,6 +73,4 @@ const Progresso = styled.div`
     font-weight: 400;
     font-size: 17.976px;
     line-height: 22px;
-`
-
-    
+`    
