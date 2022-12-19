@@ -42,7 +42,6 @@ export default function Hoje(){
     }, [])
 
     useEffect(() => {
-        setHoje([]) 
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today"    
         const config = { headers: { Authorization: `Bearer ${token}` } }    
         const promise = axios.get(url, config) 
