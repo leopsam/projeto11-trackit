@@ -142,7 +142,7 @@ export default function Habitos(){
                           onClick={() => escolhaDia(nd)} 
                           disabled={desabilitado}
                           corFundoBotao={!days.includes(nd) ? brancoBotao : cinzaBotao}
-                          corTexto={days.includes(nd) ? brancoBotao : cinzaBotao}
+                          corTexto={days.includes(nd) ? brancoBotao : "#DBDBDB"}
                         >{diasDaSemana[nd]}</InputButton>
                       ))} 
                     </ContainerBotoesSemana>
@@ -170,7 +170,7 @@ export default function Habitos(){
                                 type="button"                    
                                 disabled={desabilitado}
                                 corFundoBotao={!h.days.includes(d) ? brancoBotao : cinzaBotao}
-                                corTexto={h.days.includes(d) ? brancoBotao : cinzaBotao}
+                                corTexto={h.days.includes(d) ? brancoBotao : "#DBDBDB"}
                               >{diasDaSemana[d]}</InputButton>
                             ))} 
                       </ContainerBotoesSemana>

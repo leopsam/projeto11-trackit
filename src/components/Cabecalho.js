@@ -8,8 +8,8 @@ export default function Cabecalho(){
 
     return(
         <TopHead data-test="header">
-            <Logo src={logoSecundario} alt={userName} />
-            <Perfil src={userImage} alt="Logo TrackIt"/>
+            <p>TrackIt</p>
+            <img src={userImage} alt="Logo TrackIt"/>
         </TopHead>
     )
 }
@@ -26,14 +26,19 @@ const TopHead = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-`
-const Logo = styled.img` 
-    margin: 0 15px;
-`
-const Perfil = styled.img` 
-    width: 51px;
-    height: 51px;
-    border-radius: 98.5px;
-    margin: 0 15px;
+    p{
+        font-family: 'Playball';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 38.982px;
+        line-height: 49px;
+        color: #FFFFFF;
+        margin: 0 15px;
+    }
+    img{
+        width: 51px;
+        height: 51px;
+        border-radius: 98.5px;
+        margin: 0 15px;
+    }
 `

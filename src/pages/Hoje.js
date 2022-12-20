@@ -104,7 +104,7 @@ export default function Hoje(){
                             <p data-test="today-habit-record">Seu recorde: <TextoVerde corTexto={hh.highestSequence>0 && marcado}>{hh.highestSequence} dias</TextoVerde></p>
                         </div>
                     </ContainerHabitoEsquerda>
-                    <ContainerImage data-test="today-habit-check" onClick={!hh.done ? () => marcaHabito(hh) : () => desmarcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}> 
+                    <ContainerImage data-test="today-habit-check-btn" onClick={!hh.done ? () => marcaHabito(hh) : () => desmarcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}> 
                         <img src={vetor} alt="ckeck"/> 
                     </ContainerImage>                        
                     </HabitosHoje>
