@@ -61,6 +61,7 @@ export default function Cadastro(){
             <img src={logoPrincipal} />
             <Formulario onSubmit={cadastrarUser}>
                 <Input
+                    data-test="email-input"
                     id="email"
                     type="email"
                     placeholder="email"
@@ -71,6 +72,7 @@ export default function Cadastro(){
                     required
                 />
                 <Input
+                    data-test="password-input"
                     id="password"
                     type="password"
                     placeholder="senha"
@@ -81,6 +83,7 @@ export default function Cadastro(){
                     required
                 />
                 <Input
+                    data-test="user-name-input"
                     id="name"
                     type="text"
                     placeholder="nome"
@@ -91,6 +94,7 @@ export default function Cadastro(){
                     required
                 />
                 <Input
+                    data-test="user-image-input"
                     id="image"
                     type="url"
                     placeholder="foto"
@@ -100,11 +104,11 @@ export default function Cadastro(){
                     corFundo={desabilitado ? inputDesbotado : inputAtivo }
                     required
                 />
-                <Button type="submit">{textoBotao}</Button>
+                <Button data-test="signup-btn" type="submit">{textoBotao}</Button>
             </Formulario>
 
             <LinkLogin>
-                <Link to={`/`}>
+                <Link data-test="login-link" to={`/`}>
                     <p>Já tem uma conta? Faça login!</p>
                 </Link>                
             </LinkLogin>
