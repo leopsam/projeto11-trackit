@@ -78,7 +78,7 @@ export default function Login(){
                     corFundo={desabilitado ? inputDesbotado : inputAtivo } 
                     required
                 />
-                <Button data-test="login-btn" type="submit">{textoBotao}</Button>
+                <Button data-test="login-btn" disabled={desabilitado} type="submit">{textoBotao}</Button>
                 
             </Formulario>
 

@@ -30,7 +30,7 @@ export default function Cadastro(){
 
     function cadastrarUser(e){
         e.preventDefault()
-         setTextoBotao(botaoLoading) 
+        setTextoBotao(botaoLoading) 
         setDesabilitado("disabled")      
         const body = { email, name, image, password }
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up"
@@ -104,7 +104,7 @@ export default function Cadastro(){
                     corFundo={desabilitado ? inputDesbotado : inputAtivo }
                     required
                 />
-                <Button data-test="signup-btn" type="submit">{textoBotao}</Button>
+                <Button data-test="signup-btn" disabled={desabilitado} type="submit">{textoBotao}</Button>
             </Formulario>
 
             <LinkLogin>
