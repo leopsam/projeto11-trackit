@@ -116,13 +116,14 @@ export default function Habitos(){
       <Cabecalho />
         <TopHabitos>
           <h1>Meus hábitos</h1>
-          <button onClick={() => setCadastarHabito(true)}>+</button>
+          <button data-test="habit-create-btn" onClick={() => setCadastarHabito(true)}>+</button>
         </TopHabitos>
         <ContainerHabitos>        
             {cadastarHabito && (            
-              <CadastroHabito>
+              <CadastroHabito data-test="habit-create-container">
                 <Formulario onSubmit={cadastrarHabito}>
                   <Input
+                      data-test="habit-name-input"
                       id="name"
                       type="name"
                       placeholder="nome do hábito"
@@ -135,6 +136,7 @@ export default function Habitos(){
                     <ContainerBotoesSemana>
                       {NumDaSemana.map((nd) => (
                         <InputButton
+                          data-test="habit-day"
                           key={nd} 
                           type="button" 
                           onClick={() => escolhaDia(nd)} 
@@ -145,8 +147,8 @@ export default function Habitos(){
                       ))} 
                     </ContainerBotoesSemana>
                     <ContainerBotoesEdicao>
-                      <ButtonCanselar onClick={() => setCadastarHabito(false)}>Cancelar</ButtonCanselar> 
-                      <Button type="submit">{textoBotao}</Button>                 
+                      <ButtonCanselar data-test="habit-create-cancel-btn" onClick={() => setCadastarHabito(false)}>Cancelar</ButtonCanselar> 
+                      <Button data-test="habit-create-save-btn" type="submit">{textoBotao}</Button>                 
                     </ContainerBotoesEdicao>                                
                 </Formulario>
               </CadastroHabito>
@@ -155,14 +157,15 @@ export default function Habitos(){
             {habitos.length > 0 ? 
               <ListaHabito>
                 {habitos.map((h) => (
-                    <HabitoUnid key={h.id}>
+                    <HabitoUnid data-test="habit-container" key={h.id}>
                       <TituloHabitoUnid>
-                        <h1>{h.name}</h1>
-                        <img onClick={() => deletarHabito(h)} src={lixoImage} alt="Deletar Hábito"/>
+                        <h1 data-test="habit-name">{h.name}</h1>
+                        <img data-test="habit-delete-btn" onClick={() => deletarHabito(h)} src={lixoImage} alt="Deletar Hábito"/>
                       </TituloHabitoUnid>                      
                       <ContainerBotoesSemana>
                             {NumDaSemana.map((d) => (
-                              <InputButton 
+                              <InputButton
+                                data-test="habit-day" 
                                 key={d} 
                                 type="button"                    
                                 disabled={desabilitado}

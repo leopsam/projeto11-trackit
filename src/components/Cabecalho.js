@@ -7,7 +7,7 @@ export default function Cabecalho(){
     const { userImage, userName } = useContext(UsuarioContext)
 
     return(
-        <TopHead>
+        <TopHead data-test="header">
             <Logo src={logoSecundario} alt={userName} />
             <Perfil src={userImage} alt="Logo TrackIt"/>
         </TopHead>

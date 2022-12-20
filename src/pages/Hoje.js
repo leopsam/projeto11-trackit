@@ -88,23 +88,23 @@ export default function Hoje(){
         <Cabecalho />
         <Container>
             <DataHoje>
-                <h1>{dataFinal}</h1>  
+                <h1 data-test="today">{dataFinal}</h1>  
                 {porcentagem > 0 ? 
-                <SubTitulo corTitulo={marcado}>{porcentagem.toFixed(0)}% dos hábitos concluídos</SubTitulo> 
+                <SubTitulo data-test="today-counter" corTitulo={marcado}>{porcentagem.toFixed(0)}% dos hábitos concluídos</SubTitulo> 
                 : 
-                <SubTitulo corTitulo="#BABABA">Nenhum hábito concluído ainda</SubTitulo>}
+                <SubTitulo data-test="today-counter" corTitulo="#BABABA">Nenhum hábito concluído ainda</SubTitulo>}
             </DataHoje>
             <ContainerHabitosHoje> 
                  {hoje.map((hh) => (
-                    <HabitosHoje key={hh.id}>
+                    <HabitosHoje data-test="today-habit-container" key={hh.id}>
                     <ContainerHabitoEsquerda>
-                        <h1>{hh.name}</h1>
+                        <h1 data-test="today-habit-name">{hh.name}</h1>
                         <div>
-                            <p>Sequência atual: <TextoVerde corTexto={hh.currentSequence>0 && marcado}>{hh.currentSequence} dias</TextoVerde></p>
-                            <p>Seu recorde: <TextoVerde corTexto={hh.highestSequence>0 && marcado}>{hh.highestSequence} dias</TextoVerde></p>
+                            <p data-test="today-habit-sequence">Sequência atual: <TextoVerde corTexto={hh.currentSequence>0 && marcado}>{hh.currentSequence} dias</TextoVerde></p>
+                            <p data-test="today-habit-record">Seu recorde: <TextoVerde corTexto={hh.highestSequence>0 && marcado}>{hh.highestSequence} dias</TextoVerde></p>
                         </div>
                     </ContainerHabitoEsquerda>
-                    <ContainerImage onClick={!hh.done ? () => marcaHabito(hh) : () => desmarcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}> 
+                    <ContainerImage data-test="today-habit-check" onClick={!hh.done ? () => marcaHabito(hh) : () => desmarcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}> 
                         <img src={vetor} alt="ckeck"/> 
                     </ContainerImage>                        
                     </HabitosHoje>

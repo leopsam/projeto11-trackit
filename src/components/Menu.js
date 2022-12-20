@@ -10,11 +10,11 @@ export default function Menu(){
     const { porcentagem } = useContext(UsuarioContext)
 
     return(
-        <FooterMenu> 
-            <Link to={`/habitos`}>
+        <FooterMenu data-test="menu"> 
+            <Link data-test="habit-link" to={`/habitos`}>
                 <Logo>Hábitos</Logo>
             </Link>
-            <Link to={`/hoje`}>
+            <Link data-test="today-link" to={`/hoje`}>
                 <Progresso label="Background">
                     <CircularProgressbar
                         value={porcentagem}
@@ -30,7 +30,7 @@ export default function Menu(){
                         />
                 </Progresso>
             </Link> 
-            <Link to={`/historico`}>
+            <Link data-test="history-link" to={`/historico`}>
                 <Logo>Histórico</Logo>
             </Link>
         </FooterMenu>
