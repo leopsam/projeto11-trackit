@@ -1,26 +1,22 @@
 import styled from "styled-components"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import axios from "axios"
-import { useContext } from "react"
 import { UsuarioContext } from "../contexts/UsuarioContext"
 import Cabecalho from "../components/Cabecalho"
 import dayjs from "dayjs"
 import "dayjs/locale/pt-br"
 import vetor from "../assets/Vector.png"
 import Menu from "../components/Menu"
-import { useNavigate } from "react-router-dom"
 
 export default function Hoje(){
+    const { setPorcentagem, porcentagem, hoje, setHoje, setUserImage, setCount, count, token } = useContext(UsuarioContext)
+    const [calculo, setCalculo] = useState(0)    
     const data = dayjs().locale('pt-br').format('dddd, DD/MM')
     const dataFinal = data.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
     const desmarcado = "#EBEBEB"
-    const marcado = "#8FC549"
-    const tokenLocal = localStorage.getItem("token")
-    const navigate = useNavigate()    
+    const marcado = "#8FC549" 
+
     
-    const { setPorcentagem, porcentagem, hoje, setHoje, setUserImage, setCount, count, token } = useContext(UsuarioContext)
-    const [calculo, setCalculo] = useState(0)  
-    const [quant, setQuant] = useState(0)   
     
     useEffect(()=>{ 
         const email = localStorage.getItem("email")
@@ -32,12 +28,12 @@ export default function Hoje(){
         const promise = axios.post(url, body)
         promise.then(res => {
             localStorage.setItem("token", res.data.token)
-            setUserImage(res.data.image) 
+            setUserImage(res.data.image)            
         })
         promise.catch(err => {            
             alert(err.response.data.message)           
         })         
-        setCount(count+1)
+        setTimeout(setCount(count+1), 3000)
 
     }, [])
 
@@ -48,13 +44,12 @@ export default function Hoje(){
 
         promise.then(res => {            
             setHoje(res.data)                      
-            setCalculo(100/res.data.length)            
+            setCalculo(100/res.data.length) 
         })        
         promise.catch((err) => {
             console.log(err.response.data)
-        })
-        
-    }, [count])
+        })    
+    }, [count])  
 
     function marcaHabito(habito){        
             const url = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${habito.id}/check`
@@ -94,8 +89,10 @@ export default function Hoje(){
         <Container>
             <DataHoje>
                 <h1>{dataFinal}</h1>  
-                {porcentagem > 0 ? <SubTitulo corTitulo={marcado}>{porcentagem.toFixed(0)}% dos hábitos concluídos</SubTitulo> : <SubTitulo corTitulo="#BABABA">Nenhum hábito concluído ainda</SubTitulo>}                  
-                
+                {porcentagem > 0 ? 
+                <SubTitulo corTitulo={marcado}>{porcentagem.toFixed(0)}% dos hábitos concluídos</SubTitulo> 
+                : 
+                <SubTitulo corTitulo="#BABABA">Nenhum hábito concluído ainda</SubTitulo>}
             </DataHoje>
             <ContainerHabitosHoje> 
                  {hoje.map((hh) => (
@@ -107,12 +104,11 @@ export default function Hoje(){
                             <p>Seu recorde: <TextoVerde corTexto={hh.highestSequence>0 && marcado}>{hh.highestSequence} dias</TextoVerde></p>
                         </div>
                     </ContainerHabitoEsquerda>
-                    <ContainerImage onClick={!hh.done ? () => marcaHabito(hh) : () => desmarcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}>
+                    <ContainerImage onClick={!hh.done ? () => marcaHabito(hh) : () => desmarcaHabito(hh)} corFundo={hh.done ? marcado : desmarcado}> 
                         <img src={vetor} alt="ckeck"/> 
                     </ContainerImage>                        
                     </HabitosHoje>
-                ))}   
-              
+                ))} 
             </ContainerHabitosHoje> 
         </Container>
         <Menu />

@@ -5,7 +5,6 @@ import { UsuarioContext } from "../contexts/UsuarioContext"
 import Cabecalho from "../components/Cabecalho"
 import Menu from "../components/Menu"
 import { ThreeDots } from  'react-loader-spinner'
-//import { useNavigate } from "react-router-dom"
 import lixoImage from "../assets/lixo.png"
 
 export default function Habitos(){
@@ -17,13 +16,10 @@ export default function Habitos(){
   const [desabilitado, setDesabilitado] = useState("")
   const [textoBotao, setTextoBotao] = useState("Salvar")
   const [count, setCount] = useState(0)
-
   const diasDaSemana = ["D","S","T","Q","Q","S","S"]
   const NumDaSemana = [0,1,2,3,4,5,6]
   const brancoBotao = "#ffffff"
   const cinzaBotao = "#CFCFCF"
-  //const navigate = useNavigate()
-
   const botaoLoading = <ThreeDots 
         height="50" 
         width="50" 
@@ -51,7 +47,6 @@ export default function Habitos(){
       promise.catch(err => {            
           alert(err.response.data.message)           
       })  
-      //navigate("/hoje")
   }, []) 
      
   useEffect(() => {

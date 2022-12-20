@@ -5,14 +5,12 @@ import Cabecalho from "../components/Cabecalho"
 import Menu from "../components/Menu"
 import axios from "axios"
 
-
 export default function Hoje(){    
     const { setUserImage } = useContext(UsuarioContext)
 
     useEffect(()=>{ 
         const email = localStorage.getItem("email")
-        const password = localStorage.getItem("senha")
-        
+        const password = localStorage.getItem("senha")        
         const body = { email, password }
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
 

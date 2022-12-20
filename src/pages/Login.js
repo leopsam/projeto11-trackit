@@ -13,7 +13,6 @@ export default function Login(){
     const [textoBotao, setTextoBotao] = useState("Entrar")
     const { setToken, setUserImage, inputAtivo, inputDesbotado } = useContext(UsuarioContext)    
     const navigate = useNavigate()
-
     const botaoLoading = <ThreeDots 
         height="80" 
         width="80" 
@@ -25,6 +24,10 @@ export default function Login(){
         visible={true}
      />    
 
+     localStorage.removeItem("email");
+     localStorage.removeItem("senha");
+     localStorage.removeItem("token");
+
     function loginUser(e) {
         e.preventDefault() 
         setTextoBotao(botaoLoading) 
@@ -33,13 +36,13 @@ export default function Login(){
         const url = "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login"
     
         const promise = axios.post(url, body)
-        promise.then((res) => {
-            //setToken(res.data.token) 
+        promise.then((res) => { 
+            setToken(res.data.token)
             setUserImage(res.data.image)
             localStorage.setItem("email", res.data.email);
             localStorage.setItem("senha", res.data.password);
             localStorage.setItem("token", res.data.token);
-            navigate("/hoje")
+            navigate("/hoje") 
         })
 
         promise.catch(err => { 
@@ -54,6 +57,7 @@ export default function Login(){
             <img src={logoPrincipal} alt="Logo Trancklt"/>
             <Formulario onSubmit={loginUser}>
                 <Input
+                    data-test="email-input"
                     id="email"
                     type="email"
                     placeholder="email"
@@ -64,6 +68,7 @@ export default function Login(){
                     required
                 />
                 <Input
+                    data-test="password-input"
                     id="password"
                     type="password"
                     placeholder="senha"
@@ -73,12 +78,12 @@ export default function Login(){
                     corFundo={desabilitado ? inputDesbotado : inputAtivo } 
                     required
                 />
-                <Button type="submit">{textoBotao}</Button>
+                <Button data-test="login-btn" type="submit">{textoBotao}</Button>
                 
             </Formulario>
 
             <LinkCadastro>
-                <Link to={`/cadastro`}>
+                <Link data-test="signup-link" to={`/cadastro`}>
                     <p>Não tem uma conta? Cadastre-se!</p>
                 </Link>                
             </LinkCadastro>

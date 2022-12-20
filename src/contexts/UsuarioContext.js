@@ -9,7 +9,6 @@ export function UserProvider( {children} ) {
   const [porcentagem, setPorcentagem] = useState(0)
   const [hoje, setHoje] = useState([])
   const [count, setCount] = useState(2) 
-
   const inputDesbotado = "#F2F2F2"
   const inputAtivo = "#FFFFFF"
 
